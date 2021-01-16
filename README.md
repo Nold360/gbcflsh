@@ -1,5 +1,14 @@
-Welcome to GameBoy Cart Flasher v1.1
-====================================
+# GameBoy Cart Flasher v1.1
+
+**This version has been hacked by nold to compile & work with a modern Linux distribution.**
+
+## Known Issues
+
+ - Translations seems broken
+ - USB Support seems to need root [sudo] rights
+ - Windows support ... but who cares...
+
+## From Original Readme
 
 This program is distributed under GNU General Public Licence, see the "COPYING" 
 file for details.

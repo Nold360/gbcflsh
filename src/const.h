@@ -21,22 +21,24 @@ enum cchars
 #define SERIAL 1
 
 /* strings for version information */
-#ifdef Q_WS_X11
+#ifdef Q_WS_WIN
+#define SYSTEM "WINDOWS"
+#define DEVELOPED "Dev-C++ 4.9.9.2 + QT 4.3.2"
+#else
 #define SYSTEM "LINUX"
 #define DEVELOPED "GCC 4.1.1 + QT 4.3.2"
 #endif
 
-#ifdef Q_WS_WIN
-#define SYSTEM "WINDOWS"
-#define DEVELOPED "Dev-C++ 4.9.9.2 + QT 4.3.2"
-#endif
-
 /* return values and errors */
-enum error_t
+enum error_code
 { TIMEOUT = -1, FILEERROR_O = -2, FILEERROR_W = -3, FILEERROR_R =
     -4, SEND_ERROR = -5,
   BAD_PACKET = -6, BAD_PARAMS = -7, PORT_ERROR = -8, WRONG_SIZE = -9
 };
+
+#define FALSE 0
+#define TRUE 1
+
 
 /* packet types */
 #define CONFIG 0x00

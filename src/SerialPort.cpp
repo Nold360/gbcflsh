@@ -29,7 +29,7 @@ SerialPort::SerialPort()
 bool SerialPort::open_port(QString port_name)
 {
   /* Open port in RW mode, don't check DCD line */
-  descriptor = open (port_name.toAscii(), O_RDWR | O_NOCTTY | O_NDELAY);
+  descriptor = open (port_name.toLatin1(), O_RDWR | O_NOCTTY | O_NDELAY);
   if (descriptor != -1)			/* is port opened */
   {
     opened = TRUE;
@@ -48,7 +48,7 @@ bool SerialPort::open_port(QString port_name)
     ts.c_cflag |= CS8;		/* 8 data bits */
 
     /*
-     * raw input/output 
+     * raw input/output
      */
     ts.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
     ts.c_iflag &= ~(IXON | IXOFF | IXANY);
@@ -56,7 +56,7 @@ bool SerialPort::open_port(QString port_name)
     ts.c_iflag &= ~(INLCR | IGNCR | ICRNL);
 
     /*
-     * set all info 
+     * set all info
      */
     tcsetattr (descriptor, TCSANOW, &ts);
     fcntl (descriptor, F_SETFL, FNDELAY); /* don't wait for data while reading */
@@ -162,10 +162,10 @@ int SerialPort::receive_packet (unsigned char *packet)
       }
       while (data_left != 0 && time (NULL) - tp < SLEEPTIME);
       /*
-       * read until packet is full or time ends 
+       * read until packet is full or time ends
        */
       if (data_left > 0)
-	return TIMEOUT;		
+	return TIMEOUT;
       else
 	return DATA;		/* DATA signals read of full packet */
     }

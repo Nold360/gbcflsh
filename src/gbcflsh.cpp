@@ -41,8 +41,8 @@ parse_params (int /*argc*/, char *argv[])
 	Settings::speed = LOW;
       if (strcmp (*argv, "-highspeed") == 0)
 	Settings::speed = HIGH;
-/* 
- * communication threads prioryty are used when communication 
+/*
+ * communication threads prioryty are used when communication
  * or gui is freezing
  */
       if ((*argv)[0] == '-' && isdigit ((*argv)[1]) && (*argv)[1] >= '0'
@@ -89,23 +89,23 @@ main (int argc, char *argv[])
 /*
  * Organization and aplication names are used for naming settings
  * file/directory in Linux def. ~/.config/GBCFProject/GameBoyCartFlasher.conf
- * registry keys in Windows 
+ * registry keys in Windows
  * def. HKEY_CURRENT_USER\Software\GBCFProject/GameBoyCartFlasher.conf
  */
   QCoreApplication::setOrganizationName ("GBCFProject");
   QCoreApplication::setApplicationName ("GameBoyCartFlasher");
   QSettings settings;
-/* 
+/*
  * Default language for application is English. It can be canged with
  * files containing compiled QT translations. All files have same naming
  * convention gbcflsh_langname.qm i.e. gbcflsh_polish.qm. Program knows
  * about them, thanks to [lang] group in settings file/registry. Every lang
  * is represented as single setting i.e. polish=Polski. This record contains
  * pair of key=value, where value is name of lang shown in ComboBox and key
- * is langname in filename. Lang selected with ComboBox is saved in 
+ * is langname in filename. Lang selected with ComboBox is saved in
  * selected_lang record as langname.
  */
-  QTextCodec::setCodecForTr (QTextCodec::codecForName ("UTF-8"));
+  //QTextCodec::setCodecForTr (QTextCodec::codecForName ("UTF-8"));
   QString langName = settings.value("selected_lang").toString ();
   QString langPath = settings.value("lang_path").toString();
   if(langPath == "")

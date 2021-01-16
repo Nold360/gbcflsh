@@ -6,6 +6,7 @@ TEMPLATE = app
 TARGET = gbcflsh 
 DEPENDPATH += .
 INCLUDEPATH += .
+INCLUDEPATH += /usr/include/x86_64-linux-gnu/qt5/QtWidgets/
 #DESTDIR = build
 
 # Input
@@ -60,4 +61,5 @@ exec.files = gbcflsh
 config.path = ~/.config/GBCFProject
 config.files = GameBoyCartFlasher.conf
 INSTALLS += langpack exec config
+QT += widgets
 }

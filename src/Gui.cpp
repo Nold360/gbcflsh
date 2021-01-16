@@ -13,14 +13,12 @@
 
 
 
-#ifdef Q_WS_X11
-#include "SerialPort.h"
-#include "USBPort.h"
-#endif
-
 #ifdef Q_WS_WIN
 #include "USBPortWin.h"
 #include "SerialPortWin.h"
+#else
+#include "SerialPort.h"
+#include "USBPort.h"
 #endif
 
 #include "const.h"
@@ -147,15 +145,13 @@ Gui::create_port (void)
     case USB:
 #ifdef Q_WS_WIN
       return new USBPortWin;
-#endif
-#ifdef Q_WS_X11
+#else
       return new USBPort;
 #endif
     case SERIAL:
 #ifdef Q_WS_WIN
       return new SerialPortWin;
-#endif
-#ifdef Q_WS_X11
+#else
       return new SerialPort;
 #endif
       break;
@@ -193,7 +189,7 @@ Gui::startup_info (void)
       for (int i = 0; i < PORTS_COUNT; i++)
 	{
 	  if (Logic::
-	      read_status (port, settings->getCom(i).toAscii(), NREAD_ID, 0x00, 0x00,
+	      read_status (port, settings->getCom(i).toLatin1(), NREAD_ID, 0x00, 0x00,
 			   &status) == TRUE)
 	    {
 	      which_port = i;
@@ -227,7 +223,7 @@ Gui::show_info ()
   status_t status;
   QString tmp;
   AbstractPort *port = create_port ();
-  int return_code = Logic::read_status (port, settings->getCom().toAscii(), READ_ID,
+  int return_code = Logic::read_status (port, settings->getCom().toLatin1(), READ_ID,
 					settings->getMbc (),
 					Settings::algorythm, &status);
 
@@ -306,7 +302,7 @@ Gui::read_flash (void)
   if (file_name != "")
     {
       thread_RFLA->port = create_port ();
-      if (thread_RFLA->port->open_port (settings->getCom().toAscii()) == FALSE)
+      if (thread_RFLA->port->open_port (settings->getCom().toLatin1()) == FALSE)
 	{
 	  print_error (PORT_ERROR);
 	  return;
@@ -316,7 +312,7 @@ Gui::read_flash (void)
 	  && !file_name.contains (".sgb", Qt::CaseInsensitive))
 	file_name = file_name + ".gb";
 
-      thread_RFLA->file = fopen (file_name.toAscii (), "wb");
+      thread_RFLA->file = fopen (file_name.toLatin1 (), "wb");
       thread_RFLA->mbc = settings->getMbc ();
       thread_RFLA->page_count = settings->getFlash () / 16;
       thread_RFLA->dap = Settings::dap;
@@ -343,12 +339,12 @@ Gui::write_flash (void)
       long bytes_count;
       short kilobytes_count;
       thread_WFLA->port = create_port ();
-      if (thread_WFLA->port->open_port (settings->getCom().toAscii()) == FALSE)
+      if (thread_WFLA->port->open_port (settings->getCom().toLatin1()) == FALSE)
 	{
 	  print_error (PORT_ERROR);
 	  return;
 	}
-      thread_WFLA->file = fopen (file_name.toAscii (), "rb");
+      thread_WFLA->file = fopen (file_name.toLatin1 (), "rb");
       thread_WFLA->mbc = settings->getMbc ();
       thread_WFLA->algorythm = Settings::algorythm;
       thread_WFLA->dap = Settings::dap;
@@ -396,14 +392,14 @@ Gui::read_ram (void)
   if (file_name != "")
     {
       thread_RRAM->port = create_port ();
-      if (thread_RRAM->port->open_port (settings->getCom().toAscii()) == FALSE)
+      if (thread_RRAM->port->open_port (settings->getCom().toLatin1()) == FALSE)
 	{
 	  print_error (PORT_ERROR);
 	  return;
 	}
       if (!file_name.contains (".sav", Qt::CaseInsensitive))
 	file_name = file_name + ".sav";
-      thread_RRAM->file = fopen (file_name.toAscii (), "wb");
+      thread_RRAM->file = fopen (file_name.toLatin1 (), "wb");
       thread_RRAM->mbc = settings->getMbc ();
       thread_RRAM->algorythm = Settings::algorythm;
       thread_RRAM->dap = Settings::dap;
@@ -438,12 +434,12 @@ Gui::write_ram (void)
       long bytes_count;
       short kilobytes_count;
       thread_WRAM->port = create_port ();;
-      if (thread_WRAM->port->open_port (settings->getCom().toAscii()) == FALSE)
+      if (thread_WRAM->port->open_port (settings->getCom().toLatin1()) == FALSE)
 	{
 	  print_error (PORT_ERROR);
 	  return;
 	}
-      thread_WRAM->file = fopen (file_name.toAscii (), "rb");
+      thread_WRAM->file = fopen (file_name.toLatin1 (), "rb");
       thread_WRAM->mbc = settings->getMbc ();
       thread_WRAM->algorythm = Settings::algorythm;
       thread_WRAM->dap = Settings::dap;
@@ -502,7 +498,7 @@ void
 Gui::erase_flash (void)
 {
   thread_E->port = create_port ();
-  if (thread_E->port->open_port (settings->getCom().toAscii()) == FALSE)
+  if (thread_E->port->open_port (settings->getCom().toLatin1()) == FALSE)
     {
       print_error (PORT_ERROR);
       return;
@@ -520,7 +516,7 @@ void
 Gui::erase_ram (void)
 {
   thread_E->port = create_port ();
-  if (thread_E->port->open_port (settings->getCom().toAscii()) == FALSE)
+  if (thread_E->port->open_port (settings->getCom().toLatin1()) == FALSE)
     {
       print_error (PORT_ERROR);
       return;
@@ -570,7 +566,7 @@ Gui::setEnabledButtons (bool state)
   wflash_btn->setEnabled (state);
   eflash_btn->setEnabled (state);
   cancel_btn->setEnabled (!state);
-  //this buttons needs to be dissabled 
+  //this buttons needs to be dissabled
   //if no ram is avilable
   if (settings->isRamDisabled ())
     state = FALSE;

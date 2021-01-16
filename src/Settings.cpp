@@ -40,7 +40,21 @@ Settings::Settings (QWidget * parent):QGroupBox (tr ("Settings"), parent)
   com_combo = new QComboBox (this);
   combo_boxes->addWidget (com_combo);
 
-#ifdef Q_WS_X11
+#ifdef Q_WS_WIN
+  com_combo->insertItem (0, "COM1");
+  com_combo->insertItem (1, "COM2");
+  com_combo->insertItem (2, "COM3");
+  if (set.contains ("user_com"))
+    {
+      com_combo->insertItem (3, set.value ("user_com").toString ());
+      com_combo->setCurrentIndex (3);
+    }
+  else
+    {
+      com_combo->insertItem (3, "COM4");
+    }
+  com_combo->insertItem (4, "USB");
+#else
   com_combo->insertItem (0, "/dev/ttyS0");
   com_combo->insertItem (1, "/dev/ttyS1");
   com_combo->insertItem (2, "/dev/ttyS2");
@@ -55,22 +69,6 @@ Settings::Settings (QWidget * parent):QGroupBox (tr ("Settings"), parent)
       // /dev/flasher can be symbolic link to device,
       // if it's connected to some strange port
       com_combo->insertItem (3, "/dev/flasher");
-    }
-  com_combo->insertItem (4, "USB");
-#endif
-
-#ifdef Q_WS_WIN
-  com_combo->insertItem (0, "COM1");
-  com_combo->insertItem (1, "COM2");
-  com_combo->insertItem (2, "COM3");
-  if (set.contains ("user_com"))
-    {
-      com_combo->insertItem (3, set.value ("user_com").toString ());
-      com_combo->setCurrentIndex (3);
-    }
-  else
-    {
-      com_combo->insertItem (3, "COM4");
     }
   com_combo->insertItem (4, "USB");
 #endif
