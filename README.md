@@ -5,7 +5,6 @@
 ## Known Issues
 
  - Translations seems broken
- - USB Support seems to need root [sudo] rights
  - Windows support ... but who cares...
 
 ## From Original Readme
@@ -22,4 +21,8 @@ in "INSTALL" file.
 
 Linux USB version is not as good as Windows, because of the way Linux is 
 realizing direct access to USB hardware.
-It's important to USE USB VERSION WITH ROOT PRIVILEGES!
+
+**It's important to USE USB VERSION WITH ROOT PRIVILEGES!**
+
+## Links
+ - [Original Project](https://sourceforge.net/projects/gbcf/)
